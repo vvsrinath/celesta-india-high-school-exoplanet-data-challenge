@@ -1,62 +1,71 @@
 # Celesta — Kepler Exoplanet Classifier
 
-## Project Overview
+A leakage-free machine learning web app that classifies Kepler Objects of Interest (KOIs) as **CONFIRMED**, **CANDIDATE**, or **FALSE POSITIVE** using only raw telescope measurements — no NASA vetting outputs.
 
-A Flask web app that classifies NASA Kepler exoplanet candidates (CONFIRMED / CANDIDATE / FALSE POSITIVE) using a leakage-free Random Forest trained on raw transit and stellar signals. Features a Three.js 3D animated hero, an Explore the Universe section (Wikipedia + NASA Images API), a live prediction form, and a performance dashboard.
+**Stack:** Python 3.11 · Flask 3.1 · XGBoost 2.x · scikit-learn 1.9 · Three.js
 
-- **Entry point:** `celesta/app.py`
-- **Run command:** `cd celesta && python3 app.py`
-- **Port:** 5000
-- **Pre-trained model:** `celesta/model.joblib` — included, no retraining needed
+## How to run
 
-## Tech Stack
+```bash
+cd celesta
+python3 app.py
+```
 
-- Python 3.11, Flask 3.1
-- scikit-learn 1.9, pandas 3, numpy 2, joblib
-- Three.js r134 (CDN)
-- Wikipedia REST API, NASA Images API (Explore section)
+Open http://localhost:5000
 
-## Key Files
+## Project layout
 
 ```
 celesta/
-├── app.py              # Flask backend — routes, prediction, Explore API
-├── train_model.py      # Model training (optional — model already included)
-├── model.joblib        # Pre-trained pipeline + label encoder
-├── requirements.txt    # Python dependencies
-├── Dockerfile          # Docker build (gunicorn, port 5000)
-├── Procfile            # Railway / Heroku
-├── render.yaml         # Render one-click deploy
-├── data/stats.json     # Pre-computed metrics served to frontend
-├── static/             # CSS, JS, textures, favicon
-├── templates/          # Jinja2 HTML template
-└── docs/               # Static GitHub Pages snapshot (deploy docs/ folder)
+├── app.py               # Flask server — routes and prediction API
+├── train_model.py       # Training script (run once to regenerate model.joblib)
+├── model_utils.py       # BalancedXGBClassifier — shared by train + app
+├── model.joblib         # Pre-trained ensemble (~47 MB, generated binary)
+├── requirements.txt     # Runtime dependencies
+├── requirements-train.txt  # Extra deps for training (shap, imbalanced-learn)
+├── data/
+│   ├── koi_stripped.csv     # Cleaned training CSV (1.86 MB)
+│   └── stats.json           # Pre-computed metrics served to frontend
+├── static/
+│   ├── css/style.css        # Dark space theme, responsive
+│   ├── js/app.js            # Three.js hero, Explore section, prediction form
+│   ├── model.json           # Feature definitions for the prediction form
+│   └── images/              # Textures, favicon, developer photo
+├── templates/
+│   └── index.html           # Jinja2 template rendered by Flask
+├── notebooks/
+│   ├── Celesta_Colab.ipynb          # Self-contained Google Colab notebook
+│   └── Celesta_Hackathon_Notebook.ipynb  # Local training notebook
+├── docs/                    # Static GitHub Pages demo (no Flask required)
+└── wiki/                    # Architecture, API reference, model card docs
 ```
 
-## Environment Variables (all optional)
+## Source size
 
-| Variable | Purpose |
-|---|---|
-| `GOOGLE_CSE_CX` | Google Custom Search Engine ID (Explore section images) |
-| `GOOGLE_CSE_API_KEY` | Google Custom Search API key |
+Excluding the generated `model.joblib` binary: **~2.9 MB**
 
-The app runs fully without these — image search silently skips if unset.
+## Regenerating the model
 
-## Deployment
+The pre-trained `model.joblib` is already included. To retrain from scratch:
 
-- **GitHub Pages:** push `docs/` branch → Settings → Pages → `/docs` folder
-- **Render:** `render.yaml` auto-configures → one-click deploy
-- **Docker:** `docker build -t celesta . && docker run -p 5000:5000 celesta`
-- **Replit:** workflow `Start application` runs `cd celesta && python3 app.py`
+```bash
+cd celesta
+pip install -r requirements-train.txt   # adds shap, imbalanced-learn
+python3 train_model.py                  # ~3-5 minutes, rewrites model.joblib + data/stats.json
+```
 
-## Project Size Notes
+## API
 
-`data/koi_stripped.csv` (~1.9 MB) is gitignored — it's training-only data.  
-Tracked repo size ≈ 2.8 MB (under the 5 MB target).
+- `GET /api/stats` — model metrics (accuracy, F1, confusion matrix, SHAP importance)
+- `POST /api/predict` — classify a KOI; accepts any subset of 27 raw features as JSON
+- `GET /api/explore/search?q=orion` — Wikipedia astronomy search
+- `GET /api/explore/details?name=Orion+Nebula` — Wikipedia + NASA image details
 
-## User Preferences
+## Optional: Google Custom Search
 
-- Keep project size under 5 MB (training CSV is gitignored)
-- GitHub Pages static demo lives in `docs/` — do not break this folder
-- No Google Custom Search keys — app must work without them
-- Docker support required (gunicorn, port 5000)
+Set `GOOGLE_CSE_CX` and `GOOGLE_CSE_API_KEY` environment variables to enable richer images in the Explore section.
+
+## User preferences
+
+- Notebooks live in `celesta/notebooks/`
+- Keep project source under 5 MB (model.joblib is a generated binary and excluded from this target)
