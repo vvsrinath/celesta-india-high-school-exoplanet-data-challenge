@@ -3,8 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
-.Python
-.pythonlibs/
 *.egg-info/
 dist/
 build/
@@ -29,11 +27,16 @@ Thumbs.db
 # Logs
 *.log
 
-# Large files - not stored in git
-# model.joblib is trained inside Docker (multi-stage build) or locally via train_model.py
+# Jupyter
+.ipynb_checkpoints/
+
+# Large generated files — excluded to keep git repo under 10 MB
+# Regenerate with: python3 train_model.py
 model.joblib
+
+# Raw NASA download (1.8 MB cleaned version is in data/koi_stripped.csv)
 KOI_Cumulative_clean.csv
 Celesta_Dataset_Guide.pdf
 
-# Developer assets
+# Developer working assets
 attached_assets/

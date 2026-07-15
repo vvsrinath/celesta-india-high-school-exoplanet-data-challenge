@@ -1,19 +1,29 @@
 # Python
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
 *.egg-info/
-.ipynb_checkpoints/
+dist/
+build/
+.eggs/
 
-# Environments
+# Virtual environments
 .venv/
 venv/
 env/
+ENV/
 
 # Editors / OS
 .idea/
 .vscode/
 .DS_Store
 Thumbs.db
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
 
 # Logs / scratch
 *.log
@@ -21,9 +31,15 @@ nbexec.log
 _build_notebook.py
 catboost_info/
 
-# Large research artifacts (kept locally for the notebook, excluded from
-# the repo to keep total project/GitHub size small — not needed by the
-# running web app or GitHub Pages docs build, which use celesta/model.joblib
-# and celesta/data/koi_stripped.csv instead).
+# Large generated artifacts — not stored in git
+# model.joblib (~47 MB) is trained locally via train_model.py or Dockerfile
+celesta/model.joblib
 /KOI_Cumulative_clean.csv
 /exoplanet_best_model.joblib
+
+# Developer working assets (screenshots, pasted images, scratch files)
+attached_assets/
+celesta/attached_assets/
+
+# Replit internal
+.replit.nix
