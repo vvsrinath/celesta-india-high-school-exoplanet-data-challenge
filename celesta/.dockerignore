@@ -27,8 +27,4 @@ Thumbs.db
 # Docs (static site, not part of the server)
 docs/
 
-# Replit-specific
-.replit
-replit.nix
-replit.md
-.local/
+

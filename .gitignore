@@ -40,11 +40,4 @@ exoplanet_best_model.joblib
 attached_assets/
 celesta/attached_assets/
 
-# Replit internals
-.pythonlibs/
-.cache/
-.local/skills/
-.local/tasks/
-replit.nix
-
 # docs/ is TRACKED — GitHub Pages static site (do NOT ignore)
