@@ -1,0 +1,160 @@
+{
+  "accuracy": 0.8134,
+  "macro_f1": 0.7884,
+  "weighted_f1": 0.8152,
+  "macro_recall": 0.7956,
+  "macro_precision": 0.7829,
+  "cv_macro_f1_mean": 0.7865,
+  "cv_macro_f1_std": 0.0071,
+  "n_train": 7651,
+  "n_test": 1913,
+  "n_total": 9564,
+  "classes": [
+    "CANDIDATE",
+    "CONFIRMED",
+    "FALSE POSITIVE"
+  ],
+  "class_counts": {
+    "CANDIDATE": 1978,
+    "CONFIRMED": 2747,
+    "FALSE POSITIVE": 4839
+  },
+  "confusion_matrix": [
+    [
+      265,
+      48,
+      83
+    ],
+    [
+      41,
+      487,
+      21
+    ],
+    [
+      123,
+      41,
+      804
+    ]
+  ],
+  "per_class": {
+    "CANDIDATE": {
+      "precision": 0.618,
+      "recall": 0.669,
+      "f1": 0.642,
+      "support": 396
+    },
+    "CONFIRMED": {
+      "precision": 0.845,
+      "recall": 0.887,
+      "f1": 0.866,
+      "support": 549
+    },
+    "FALSE POSITIVE": {
+      "precision": 0.885,
+      "recall": 0.831,
+      "f1": 0.857,
+      "support": 968
+    }
+  },
+  "feature_importance": [
+    [
+      "koi_max_mult_ev",
+      0.5483248829841614
+    ],
+    [
+      "koi_prad",
+      0.33945199847221375
+    ],
+    [
+      "koi_count",
+      0.3149528205394745
+    ],
+    [
+      "single_multi_ratio",
+      0.26382866501808167
+    ],
+    [
+      "duration_period_ratio",
+      0.20309965312480927
+    ],
+    [
+      "koi_model_snr",
+      0.18179506063461304
+    ],
+    [
+      "koi_smet",
+      0.16576912999153137
+    ],
+    [
+      "koi_bin_oedp_sig",
+      0.15594272315502167
+    ],
+    [
+      "koi_ror",
+      0.14769455790519714
+    ],
+    [
+      "koi_max_sngle_ev",
+      0.13583454489707947
+    ],
+    [
+      "koi_impact",
+      0.1259002536535263
+    ],
+    [
+      "ra",
+      0.11869680136442184
+    ],
+    [
+      "koi_duration",
+      0.11105117946863174
+    ],
+    [
+      "koi_dor",
+      0.10801904648542404
+    ],
+    [
+      "dec",
+      0.10516028106212616
+    ]
+  ],
+  "features": [
+    "koi_period",
+    "koi_time0bk",
+    "koi_impact",
+    "koi_duration",
+    "koi_depth",
+    "koi_ror",
+    "koi_srho",
+    "koi_prad",
+    "koi_sma",
+    "koi_incl",
+    "koi_teq",
+    "koi_insol",
+    "koi_dor",
+    "koi_max_sngle_ev",
+    "koi_max_mult_ev",
+    "koi_model_snr",
+    "koi_count",
+    "koi_num_transits",
+    "koi_bin_oedp_sig",
+    "koi_steff",
+    "koi_slogg",
+    "koi_smet",
+    "koi_srad",
+    "koi_smass",
+    "ra",
+    "dec",
+    "koi_kepmag",
+    "single_multi_ratio",
+    "duration_period_ratio",
+    "log_period",
+    "log_depth",
+    "log_snr",
+    "stellar_density_proxy",
+    "impact_ror_ratio",
+    "expected_duration_ratio"
+  ],
+  "n_features_raw": 27,
+  "n_features_engineered": 8
+}

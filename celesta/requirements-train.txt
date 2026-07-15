@@ -1,0 +1,2 @@
+shap>=0.44.0
+imbalanced-learn>=0.12.0

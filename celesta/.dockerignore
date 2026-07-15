@@ -1,0 +1,40 @@
+# git
+.git/
+.gitignore
+.gitattributes
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+.pythonlibs/
+*.egg-info/
+
+# dev tools
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# large raw data not needed inside Docker
+# (koi_stripped.csv IS needed — it's the training data for stage 1)
+KOI_Cumulative_clean.csv
+Celesta_Dataset_Guide.pdf
+attached_assets/
+
+# docs (GitHub Pages static site — not part of the Docker app)
+docs/
+
+# model.joblib is built inside Docker, don't copy a stale local one in
+model.joblib
+
+# notebook and readme
+*.ipynb
+README.md
+
+# wiki pages (GitHub Wiki — not part of the Docker app)
+wiki/
+
+# logs
+*.log

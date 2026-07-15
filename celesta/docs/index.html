@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celesta — Kepler Exoplanet Classifier</title>
+  <link rel="icon" type="image/png" href="static/images/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="static/css/style.css?v=2" />
+</head>
+<body>
+
+<!-- ── 3D Starfield Canvas ─────────────────────────────────────────────── -->
+<canvas id="starfield"></canvas>
+
+<!-- ── Nav ────────────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">✦ Celesta</div>
+  <div class="nav-links" id="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#explore">Explore</a>
+    <a href="#performance">Performance</a>
+    <a href="#features">Features</a>
+    <a href="#predict">Predict</a>
+    <a href="#developer">Developer</a>
+  </div>
+  <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────────────────────────── -->
+<section class="hero" id="overview">
+  <div class="hero-content">
+    <div class="hero-badge reveal">NASA Kepler · KOI Cumulative Catalog</div>
+    <h1 class="hero-title reveal">
+      <span class="gradient-text">Celesta</span>
+    </h1>
+    <p class="hero-sub reveal">
+      Leakage-free machine learning for Kepler exoplanet disposition.<br/>
+      Raw transit &amp; stellar signals only — no NASA vetting outputs.
+    </p>
+    <div class="hero-stats reveal">
+      <div class="hero-stat">
+        <span class="stat-num" data-target="79.2">0</span>
+        <span class="stat-pct">%</span>
+        <div class="stat-lbl">Accuracy</div>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num" data-target="76.8">0</span>
+        <span class="stat-pct">%</span>
+        <div class="stat-lbl">Macro F1</div>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num" data-target="9564">0</span>
+        <div class="stat-lbl">KOI Records</div>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num" data-target="3">0</span>
+        <div class="stat-lbl">Classes</div>
+      </div>
+    </div>
+    <a href="#predict" class="hero-cta reveal">Classify an Exoplanet →</a>
+  </div>
+</section>
+
+<!-- ── Explore ─────────────────────────────────────────────────────────── -->
+<section class="section alt-section" id="explore">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Powered by Wikipedia &amp; NASA</div>
+      <h2>Explore the Universe</h2>
+      <p>Search any star, exoplanet, nebula, or galaxy — or pick one below.</p>
+    </div>
+
+    <!-- Search bar -->
+    <div class="explore-search-wrap reveal">
+      <div class="explore-search-box">
+        <span class="search-icon">🔍</span>
+        <input
+          type="text"
+          id="explore-input"
+          autocomplete="off"
+          placeholder="e.g. Andromeda Galaxy, Betelgeuse, Kepler-22b…"
+        />
+        <button type="button" id="explore-clear-btn" class="explore-clear" hidden>✕</button>
+      </div>
+      <ul class="explore-dropdown" id="explore-dropdown" hidden></ul>
+    </div>
+
+    <!-- Featured picks -->
+    <div class="featured-section reveal">
+      <div class="featured-label">✦ Featured objects — click any to explore:</div>
+      <div class="featured-groups" id="featured-groups">
+
+        <div class="feat-group">
+          <div class="feat-group-title">🌍 Exoplanets</div>
+          <div class="feat-chips">
+            <button class="feat-chip" data-obj="Kepler-22b"><img class="chip-thumb" src="static/images/textures/thumb_earth.jpg" alt="" />Kepler-22b</button>
+            <button class="feat-chip" data-obj="Proxima Centauri b"><img class="chip-thumb" src="static/images/textures/thumb_mars.jpg" alt="" />Proxima Centauri b</button>
+            <button class="feat-chip" data-obj="TRAPPIST-1e"><img class="chip-thumb" src="static/images/textures/thumb_moon.jpg" alt="" />TRAPPIST-1e</button>
+            <button class="feat-chip" data-obj="51 Pegasi b"><img class="chip-thumb" src="static/images/textures/thumb_jupiter.jpg" alt="" />51 Pegasi b</button>
+            <button class="feat-chip" data-obj="HD 209458 b"><img class="chip-thumb" src="static/images/textures/thumb_jupiter.jpg" alt="" />HD 209458 b</button>
+            <button class="feat-chip" data-obj="Kepler-452b"><img class="chip-thumb" src="static/images/textures/thumb_earth.jpg" alt="" />Kepler-452b</button>
+          </div>
+        </div>
+
+        <div class="feat-group">
+          <div class="feat-group-title">⭐ Stars</div>
+          <div class="feat-chips">
+            <button class="feat-chip" data-obj="Proxima Centauri"><img class="chip-thumb" src="static/images/textures/thumb_sun.jpg" alt="" />Proxima Centauri</button>
+            <button class="feat-chip" data-obj="Betelgeuse"><img class="chip-thumb" src="static/images/textures/thumb_sun.jpg" alt="" />Betelgeuse</button>
+            <button class="feat-chip" data-obj="Sirius"><img class="chip-thumb" src="static/images/textures/thumb_sun.jpg" alt="" />Sirius</button>
+            <button class="feat-chip" data-obj="Alpha Centauri"><img class="chip-thumb" src="static/images/textures/thumb_sun.jpg" alt="" />Alpha Centauri</button>
+            <button class="feat-chip" data-obj="Polaris"><img class="chip-thumb" src="static/images/textures/thumb_sun.jpg" alt="" />Polaris</button>
+          </div>
+        </div>
+
+        <div class="feat-group">
+          <div class="feat-group-title">🌌 Nebulae</div>
+          <div class="feat-chips">
+            <button class="feat-chip" data-obj="Orion Nebula">Orion Nebula</button>
+            <button class="feat-chip" data-obj="Crab Nebula">Crab Nebula</button>
+            <button class="feat-chip" data-obj="Eagle Nebula">Eagle Nebula</button>
+            <button class="feat-chip" data-obj="Helix Nebula">Helix Nebula</button>
+            <button class="feat-chip" data-obj="Pillars of Creation">Pillars of Creation</button>
+          </div>
+        </div>
+
+        <div class="feat-group">
+          <div class="feat-group-title">🌀 Galaxies</div>
+          <div class="feat-chips">
+            <button class="feat-chip" data-obj="Andromeda Galaxy">Andromeda Galaxy</button>
+            <button class="feat-chip" data-obj="Triangulum Galaxy">Triangulum Galaxy</button>
+            <button class="feat-chip" data-obj="Milky Way">Milky Way</button>
+            <button class="feat-chip" data-obj="Whirlpool Galaxy">Whirlpool Galaxy</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Detail card (hidden until object selected) -->
+    <div class="obj-card glass reveal" id="obj-card" hidden>
+      <div class="obj-card-inner">
+        <div class="obj-image-wrap" id="obj-image-wrap">
+          <img id="obj-image" src="" alt="" class="obj-image" />
+          <div class="obj-image-overlay"></div>
+        </div>
+        <div class="obj-info">
+          <div class="obj-loading" id="obj-loading">
+            <div class="obj-spinner"></div>
+            <span>Fetching data…</span>
+          </div>
+          <div id="obj-content" hidden>
+            <div class="obj-type-badge" id="obj-badge">—</div>
+            <h3 class="obj-title" id="obj-title">—</h3>
+            <p class="obj-extract" id="obj-extract">—</p>
+            <div class="obj-links" id="obj-links"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Performance ────────────────────────────────────────────────────── -->
+<section class="section" id="performance">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Model Results</div>
+      <h2>Performance</h2>
+      <p>Evaluated on a held-out 20% test set using stratified splitting.</p>
+    </div>
+
+    <!-- Metric cards -->
+    <div class="metric-grid reveal">
+      
+      <div class="metric-card glass">
+        <div class="metric-val">79.2<span>%</span></div>
+        <div class="metric-name">Accuracy</div>
+        <div class="metric-bar">
+          <div class="metric-fill" style="width: 79.2%"></div>
+        </div>
+      </div>
+      
+      <div class="metric-card glass">
+        <div class="metric-val">76.8<span>%</span></div>
+        <div class="metric-name">Macro F1</div>
+        <div class="metric-bar">
+          <div class="metric-fill" style="width: 76.8%"></div>
+        </div>
+      </div>
+      
+      <div class="metric-card glass">
+        <div class="metric-val">79.4<span>%</span></div>
+        <div class="metric-name">Weighted F1</div>
+        <div class="metric-bar">
+          <div class="metric-fill" style="width: 79.4%"></div>
+        </div>
+      </div>
+      
+      <div class="metric-card glass">
+        <div class="metric-val">77.6<span>%</span></div>
+        <div class="metric-name">Macro Recall</div>
+        <div class="metric-bar">
+          <div class="metric-fill" style="width: 77.6%"></div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Per-class breakdown -->
+    <div class="class-grid reveal">
+      
+      <div class="class-card glass">
+        <div class="class-name
+          cls-candidate
+          
+        ">CANDIDATE</div>
+        <div class="class-support">396 samples</div>
+        <div class="class-metrics">
+          <div><span>Precision</span><strong>0.604</strong></div>
+          <div><span>Recall</span><strong>0.662</strong></div>
+          <div><span>F1</span><strong>0.631</strong></div>
+        </div>
+      </div>
+      
+      <div class="class-card glass">
+        <div class="class-name
+          cls-confirmed
+          
+        ">CONFIRMED</div>
+        <div class="class-support">549 samples</div>
+        <div class="class-metrics">
+          <div><span>Precision</span><strong>0.813</strong></div>
+          <div><span>Recall</span><strong>0.862</strong></div>
+          <div><span>F1</span><strong>0.836</strong></div>
+        </div>
+      </div>
+      
+      <div class="class-card glass">
+        <div class="class-name
+          cls-fp
+        ">FALSE POSITIVE</div>
+        <div class="class-support">968 samples</div>
+        <div class="class-metrics">
+          <div><span>Precision</span><strong>0.870</strong></div>
+          <div><span>Recall</span><strong>0.806</strong></div>
+          <div><span>F1</span><strong>0.836</strong></div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Confusion matrix -->
+    <div class="cm-wrap reveal">
+      <h3>Confusion Matrix</h3>
+      <div class="cm-grid" id="cm-grid"></div>
+      <div class="cm-labels">
+        <span>CANDIDATE</span><span>CONFIRMED</span><span>FALSE POSITIVE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Feature Importance ──────────────────────────────────────────────── -->
+<section class="section alt-section" id="features">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Model Interpretability</div>
+      <h2>Feature Importance</h2>
+      <p>Top 15 raw-signal features ranked by mean decrease in impurity.</p>
+    </div>
+    <div class="feat-list reveal">
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_model_snr</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 100.00%"></div>
+        </div>
+        <div class="feat-val">0.1204</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_max_mult_ev</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 86.60%"></div>
+        </div>
+        <div class="feat-val">0.1043</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_ror</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 64.39%"></div>
+        </div>
+        <div class="feat-val">0.0776</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_prad</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 53.89%"></div>
+        </div>
+        <div class="feat-val">0.0649</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_dor</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 43.94%"></div>
+        </div>
+        <div class="feat-val">0.0529</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_count</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 40.17%"></div>
+        </div>
+        <div class="feat-val">0.0484</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_max_sngle_ev</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 39.40%"></div>
+        </div>
+        <div class="feat-val">0.0475</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_incl</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 33.99%"></div>
+        </div>
+        <div class="feat-val">0.0409</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_depth</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 31.70%"></div>
+        </div>
+        <div class="feat-val">0.0382</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_period</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 31.37%"></div>
+        </div>
+        <div class="feat-val">0.0378</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_teq</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 24.88%"></div>
+        </div>
+        <div class="feat-val">0.0300</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_impact</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 24.45%"></div>
+        </div>
+        <div class="feat-val">0.0295</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_srho</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 24.45%"></div>
+        </div>
+        <div class="feat-val">0.0294</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_num_transits</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 24.22%"></div>
+        </div>
+        <div class="feat-val">0.0292</div>
+      </div>
+      
+      <div class="feat-row">
+        <div class="feat-name">koi_duration</div>
+        <div class="feat-bar-wrap">
+          <div class="feat-bar" style="width: 21.59%"></div>
+        </div>
+        <div class="feat-val">0.0260</div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- ── Predict ─────────────────────────────────────────────────────────── -->
+<section class="section" id="predict">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Live Classifier</div>
+      <h2>Classify a KOI</h2>
+      <p>Try an example below, or enter your own values. You can fill as few as one field.</p>
+    </div>
+
+    <!-- Quick example presets -->
+    <div class="presets reveal">
+      <div class="preset-label">⚡ Quick examples — click to auto-fill:</div>
+      <div class="preset-cards">
+        <button type="button" class="preset-card preset-confirmed" data-preset="confirmed">
+          <span class="preset-icon">🌍</span>
+          <span class="preset-name">Confirmed Planet</span>
+          <span class="preset-desc">Sun-like star, small planet, clean multi-transit signal</span>
+        </button>
+        <button type="button" class="preset-card preset-candidate" data-preset="candidate">
+          <span class="preset-icon">🔭</span>
+          <span class="preset-name">Candidate KOI</span>
+          <span class="preset-desc">Moderate signal, passes automated tests, not yet verified</span>
+        </button>
+        <button type="button" class="preset-card preset-fp" data-preset="fp">
+          <span class="preset-icon">✗</span>
+          <span class="preset-name">False Positive</span>
+          <span class="preset-desc">Very deep transit, short period — likely an eclipsing binary</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="predict-layout reveal">
+      <form id="predict-form" class="glass predict-form">
+
+        <!-- Essential fields (always visible) -->
+        <div class="essential-grid">
+          <div class="form-field">
+            <label>
+              Signal Strength (SNR)
+              <span class="field-hint">How clearly the transit stands out — higher = more reliable</span>
+            </label>
+            <input type="number" name="koi_model_snr" step="any" placeholder="e.g. 35.8" />
+          </div>
+          <div class="form-field">
+            <label>
+              Planet Size (Earth radii)
+              <span class="field-hint">Estimated planet radius — Earth = 1, Jupiter ≈ 11</span>
+            </label>
+            <input type="number" name="koi_prad" step="any" placeholder="e.g. 2.26" />
+          </div>
+          <div class="form-field">
+            <label>
+              Orbital Period (days)
+              <span class="field-hint">How long one orbit takes — Earth = 365, Mercury = 88</span>
+            </label>
+            <input type="number" name="koi_period" step="any" placeholder="e.g. 9.49" />
+          </div>
+          <div class="form-field">
+            <label>
+              Transit Depth (ppm)
+              <span class="field-hint">How much starlight dims — small planets cause small dips</span>
+            </label>
+            <input type="number" name="koi_depth" step="any" placeholder="e.g. 615.8" />
+          </div>
+          <div class="form-field">
+            <label>
+              Star Temperature (K)
+              <span class="field-hint">Surface temperature — our Sun is ~5778 K</span>
+            </label>
+            <input type="number" name="koi_steff" step="any" placeholder="e.g. 5455" />
+          </div>
+          <div class="form-field">
+            <label>
+              Star Surface Gravity (log g)
+              <span class="field-hint">Compactness of the star — main-sequence stars: 4.0 – 4.9</span>
+            </label>
+            <input type="number" name="koi_slogg" step="any" placeholder="e.g. 4.47" />
+          </div>
+        </div>
+
+        <!-- Advanced toggle -->
+        <button type="button" class="advanced-toggle" id="advanced-toggle">
+          <span id="advanced-label">＋ Show advanced parameters</span>
+        </button>
+
+        <!-- Advanced fields (hidden by default) -->
+        <div class="advanced-fields" id="advanced-fields" hidden>
+          <div class="adv-group-label">More Transit Details</div>
+          <div class="form-grid-adv">
+            <div class="form-field">
+              <label>Impact Parameter <span class="field-hint">0 = centre, 1 = edge</span></label>
+              <input type="number" name="koi_impact" step="any" placeholder="0 – 1.5" />
+            </div>
+            <div class="form-field">
+              <label>Transit Duration (hrs)</label>
+              <input type="number" name="koi_duration" step="any" placeholder="e.g. 2.96" />
+            </div>
+            <div class="form-field">
+              <label>Radius Ratio (Rp/Rs)</label>
+              <input type="number" name="koi_ror" step="any" placeholder="e.g. 0.022" />
+            </div>
+            <div class="form-field">
+              <label>Equilibrium Temp (K)</label>
+              <input type="number" name="koi_teq" step="any" placeholder="e.g. 793" />
+            </div>
+            <div class="form-field">
+              <label>Insolation Flux (F⊕)</label>
+              <input type="number" name="koi_insol" step="any" placeholder="e.g. 93.6" />
+            </div>
+            <div class="form-field">
+              <label>Max Single Event σ</label>
+              <input type="number" name="koi_max_sngle_ev" step="any" placeholder="e.g. 5.1" />
+            </div>
+            <div class="form-field">
+              <label>Max Multiple Event σ</label>
+              <input type="number" name="koi_max_mult_ev" step="any" placeholder="e.g. 28.5" />
+            </div>
+            <div class="form-field">
+              <label>Number of Transits</label>
+              <input type="number" name="koi_num_transits" step="1" placeholder="e.g. 142" />
+            </div>
+          </div>
+          <div class="adv-group-label">More Stellar Details</div>
+          <div class="form-grid-adv">
+            <div class="form-field">
+              <label>Metallicity [Fe/H]</label>
+              <input type="number" name="koi_smet" step="any" placeholder="e.g. 0.14" />
+            </div>
+            <div class="form-field">
+              <label>Stellar Radius (R☉)</label>
+              <input type="number" name="koi_srad" step="any" placeholder="e.g. 0.93" />
+            </div>
+            <div class="form-field">
+              <label>Stellar Mass (M☉)</label>
+              <input type="number" name="koi_smass" step="any" placeholder="e.g. 0.92" />
+            </div>
+            <div class="form-field">
+              <label>Stellar Age (Gyr)</label>
+              <input type="number" name="koi_sage" step="any" placeholder="e.g. 4.5" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="submit-btn">
+            <span class="btn-text">🔍 Classify</span>
+            <span class="btn-spinner" hidden>Classifying…</span>
+          </button>
+          <button type="button" class="clear-btn" id="clear-btn">✕ Clear</button>
+        </div>
+      </form>
+
+      <!-- Result Panel -->
+      <div class="result-panel glass" id="result-panel">
+        <div class="result-idle">
+          <div class="result-icon">⟡</div>
+          <p>Pick an example or enter values, then click <strong>Classify</strong>.</p>
+        </div>
+        <div class="result-output" hidden>
+          <div class="result-label" id="result-label">—</div>
+          <div class="result-confidence" id="result-confidence">—</div>
+          <div class="result-probs" id="result-probs"></div>
+          <div class="result-missing" id="result-missing"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Developer ───────────────────────────────────────────────────────── -->
+<section class="section alt-section" id="developer">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Built By</div>
+      <h2>Developer</h2>
+    </div>
+    <div class="dev-card glass reveal">
+      <div class="dev-photo-wrap">
+        <img src="static/images/developer.png" alt="Srinath V Venkateshan" class="dev-photo" />
+        <div class="dev-photo-glow"></div>
+      </div>
+      <div class="dev-info">
+        <h3 class="dev-name">Srinath V Venkateshan</h3>
+        <p class="dev-desc">
+          Built Celesta as a leakage-audited machine learning submission for the
+          Celesta NASA Kepler Exoplanet Classification challenge — classifying
+          Kepler Objects of Interest using only raw transit and stellar signals,
+          with zero data leakage from NASA vetting outputs.
+        </p>
+        <div class="dev-links">
+          <a href="https://www.linkedin.com/in/srinath-v-a26b372b7/" target="_blank" rel="noopener" class="dev-link dev-link-linkedin">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <a href="mailto:vvsrinath0@gmail.com" class="dev-link dev-link-email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+            vvsrinath0@gmail.com
+          </a>
+          <a href="https://github.com/vvsrinath" target="_blank" rel="noopener" class="dev-link dev-link-github">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ──────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-logo">✦ Celesta</div>
+  <p>Leakage-Free Kepler Exoplanet Classifier · Celesta / NASA Kepler Data Challenge</p>
+  <p>Built by <a href="https://www.linkedin.com/in/srinath-v-a26b372b7/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">Srinath V Venkateshan</a> · <a href="mailto:vvsrinath0@gmail.com" style="color:var(--text-muted);text-decoration:none;">vvsrinath0@gmail.com</a></p>
+  <p class="footer-note">
+    Primary model uses raw transit &amp; stellar measurements only.
+    Accuracy 79.2% · Macro F1 76.8%
+  </p>
+</footer>
+
+<!-- ── Scripts ─────────────────────────────────────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script>
+  // Pass Python stats to JS
+  window.CELESTA_STATS = {"accuracy": 0.7919, "class_counts": {"CANDIDATE": 1978, "CONFIRMED": 2747, "FALSE POSITIVE": 4839}, "classes": ["CANDIDATE", "CONFIRMED", "FALSE POSITIVE"], "confusion_matrix": [[262, 49, 85], [44, 473, 32], [128, 60, 780]], "feature_importance": [["koi_model_snr", 0.120443566809241], ["koi_max_mult_ev", 0.1043043832829038], ["koi_ror", 0.07755329293220566], ["koi_prad", 0.06491099240466246], ["koi_dor", 0.052924521948430545], ["koi_count", 0.048379674393206853], ["koi_max_sngle_ev", 0.047453913947984844], ["koi_incl", 0.04093926837648931], ["koi_depth", 0.038185545360323495], ["koi_period", 0.03778847889346457], ["koi_teq", 0.02996589650860009], ["koi_impact", 0.029454251004116628], ["koi_srho", 0.02944531525020691], ["koi_num_transits", 0.029171703845150044], ["koi_duration", 0.026009623043706215]], "features": ["koi_period", "koi_time0bk", "koi_impact", "koi_duration", "koi_depth", "koi_ror", "koi_srho", "koi_prad", "koi_sma", "koi_incl", "koi_teq", "koi_insol", "koi_dor", "koi_max_sngle_ev", "koi_max_mult_ev", "koi_model_snr", "koi_count", "koi_num_transits", "koi_bin_oedp_sig", "koi_model_dof", "koi_model_chisq", "koi_steff", "koi_slogg", "koi_smet", "koi_srad", "koi_smass", "koi_sage", "ra", "dec", "koi_kepmag"], "macro_f1": 0.7681, "macro_recall": 0.7763, "n_test": 1913, "n_total": 9564, "n_train": 7651, "per_class": {"CANDIDATE": {"f1": 0.631, "precision": 0.604, "recall": 0.662, "support": 396}, "CONFIRMED": {"f1": 0.836, "precision": 0.813, "recall": 0.862, "support": 549}, "FALSE POSITIVE": {"f1": 0.836, "precision": 0.87, "recall": 0.806, "support": 968}}, "weighted_f1": 0.794};
+</script>
+<script src="static/js/app.js?v=2"></script>
+</body>
+</html>

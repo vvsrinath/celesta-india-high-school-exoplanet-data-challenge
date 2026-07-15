@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Environments
+.venv/
+venv/
+env/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs / scratch
+*.log
+nbexec.log
+_build_notebook.py
+catboost_info/
+
+# Large research artifacts (kept locally for the notebook, excluded from
+# the repo to keep total project/GitHub size small — not needed by the
+# running web app or GitHub Pages docs build, which use celesta/model.joblib
+# and celesta/data/koi_stripped.csv instead).
+/KOI_Cumulative_clean.csv
+/exoplanet_best_model.joblib

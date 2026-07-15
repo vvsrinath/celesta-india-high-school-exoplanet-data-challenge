@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pythonlibs/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Large files - not stored in git
+# model.joblib is trained inside Docker (multi-stage build) or locally via train_model.py
+model.joblib
+KOI_Cumulative_clean.csv
+Celesta_Dataset_Guide.pdf
+
+# Developer assets
+attached_assets/
