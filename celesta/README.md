@@ -15,11 +15,11 @@
 [![XGBoost](https://img.shields.io/badge/XGBoost-2.x-E76F00?style=for-the-badge)](https://xgboost.readthedocs.io/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.9-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
-[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?style=for-the-badge&logo=github)](https://vvsrinath.github.io/Celesta-India-High-School-Exoplanet-Data-Challenge/)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=for-the-badge&logo=vercel)](https://celesta-kepler.vercel.app/)
 
 <br>
 
-[Source Code](https://github.com/vvsrinath/Celesta-India-High-School-Exoplanet-Data-Challenge) | [Live Demo](https://vvsrinath.github.io/Celesta-India-High-School-Exoplanet-Data-Challenge/)
+[Source Code](https://github.com/vvsrinath/Celesta-India-High-School-Exoplanet-Data-Challenge) | [Live Demo](https://celesta-kepler.vercel.app/)
 
 <br>
 
@@ -628,7 +628,7 @@ Returns full object details: Wikipedia extract, description, NASA Images API pho
 **Developed by Srinath Vatchavari Venkateshan**
 
 **Source Code:** [GitHub](https://github.com/vvsrinath/Celesta-India-High-School-Exoplanet-Data-Challenge)  
-**Live Demo:** [GitHub Pages](https://vvsrinath.github.io/Celesta-India-High-School-Exoplanet-Data-Challenge/)  
+**Live Demo:** [Vercel](https://celesta-kepler.vercel.app/)  
 **Dataset:** NASA Exoplanet Archive — Kepler Objects of Interest Cumulative Table (public domain)  
 **SHAP:** Lundberg & Lee, 2017 — [A Unified Approach to Interpreting Model Predictions](https://arxiv.org/abs/1705.07874)  
 **XGBoost:** Chen & Guestrin, 2016 — [XGBoost: A Scalable Tree Boosting System](https://arxiv.org/abs/1603.02754)  

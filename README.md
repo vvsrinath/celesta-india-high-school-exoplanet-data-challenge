@@ -15,6 +15,7 @@
 [![XGBoost](https://img.shields.io/badge/XGBoost-2.x-E76F00?style=for-the-badge)](https://xgboost.readthedocs.io/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.9-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=for-the-badge&logo=vercel)](https://celesta-kepler.vercel.app/)
 [![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?style=for-the-badge&logo=github)](https://vvsrinath.github.io/Celesta-India-High-School-Exoplanet-Data-Challenge/)
 
 <br>
@@ -27,7 +28,7 @@
 
 **Developed by Srinath Vatchavari Venkateshan**
 
-[Source Code](https://github.com/vvsrinath/Celesta-India-High-School-Exoplanet-Data-Challenge) | [Live Demo](https://vvsrinath.github.io/Celesta-India-High-School-Exoplanet-Data-Challenge/)
+[Source Code](https://github.com/vvsrinath/Celesta-India-High-School-Exoplanet-Data-Challenge) | [Live Demo](https://celesta-kepler.vercel.app/)
 
 </div>
 
@@ -69,7 +70,7 @@ See [`colab/README.md`](colab/README.md) for Colab badges and instructions.
 
 ## Live Demo
 
-The project is deployed on GitHub Pages: [https://vvsrinath.github.io/Celesta-India-High-School-Exoplanet-Data-Challenge/](https://vvsrinath.github.io/Celesta-India-High-School-Exoplanet-Data-Challenge/)
+The project is deployed on Vercel: [https://celesta-kepler.vercel.app/](https://celesta-kepler.vercel.app/)
 
 ---
 
@@ -132,17 +133,17 @@ curl -X POST http://localhost:5000/api/predict \
 | Backend | Python 3.11, Flask, Gunicorn |
 | Frontend | Three.js, Vanilla JS, CSS |
 | Data | NASA Exoplanet Archive, pandas, NumPy |
-| Deployment | Docker, GitHub Pages |
+| Deployment | Docker, Vercel, GitHub Pages |
 
 ---
 
-## GitHub Pages Deployment
+## Vercel Deployment
 
-The `docs/` folder is deployed automatically to GitHub Pages via GitHub Actions.
+The static site (`index.html` at repo root + `docs/` folder) is deployed on Vercel.
 
-- Push changes to `docs/` on the `main` branch to trigger a deploy
-- Or trigger manually from the Actions tab
-- Live at: [https://vvsrinath.github.io/Celesta-India-High-School-Exoplanet-Data-Challenge/](https://vvsrinath.github.io/Celesta-India-High-School-Exoplanet-Data-Challenge/)
+- Live at: [https://celesta-kepler.vercel.app/](https://celesta-kepler.vercel.app/)
+- Auto-deploys on push to `main` branch
+- Configured via [`vercel.json`](vercel.json) with zero build steps
 
 ---
 

@@ -41,3 +41,5 @@ attached_assets/
 celesta/attached_assets/
 
 # docs/ is TRACKED — GitHub Pages static site (do NOT ignore)
+.vercel
+.env*
